@@ -1,0 +1,23 @@
+{
+  "name": "playwright-space",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:ui": "npx playwright test --ui --workers 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natlosawatkul/playwright-space.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/natlosawatkul/playwright-space/issues"
+  },
+  "homepage": "https://github.com/natlosawatkul/playwright-space#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.2.0"
+  }
+}
