@@ -4,44 +4,49 @@ test.beforeEach(async ({ page }) => {
     await page.goto('https://playground.bondaracademy.com')
 })
 
-// test.describe('Form Layouts page', () => {
+test.describe.only('Form Layouts page', () => {
+    test.describe.configure({ retries: 2 })
+    test.beforeEach(async ({ page }) => {
+        await page.getByText('Forms').click()
+        await page.getByText('Form Layouts').click()
+    })
 
-//     test.beforeEach(async ({ page }) => {
-//         await page.getByText('Forms').click()
-//         await page.getByText('Form Layouts').click()
-//     })
+    test('input fields', async ({ page }, testInfo) => {
+        if (testInfo.retry) {
+            // clean test data
+        }
+        const usingTheGridEmailInput = page.locator('nb-card', { hasText: 'Using the Grid' }).getByRole('textbox', { name: 'Email' })
+        await usingTheGridEmailInput.fill('test@test.com')
+        // if need to remove text in input field, using clear()
+        await usingTheGridEmailInput.clear()
+        // simulate the keystrokes
+        await usingTheGridEmailInput.pressSequentially('test2@test.com', { delay: 500 })
 
-test('input fields', async ({ page }) => {
-    const usingTheGridEmailInput = page.locator('nb-card', { hasText: 'Using the Grid' }).getByRole('textbox', { name: 'Email' })
-    await usingTheGridEmailInput.fill('test@test.com')
-    // if need to remove text in input field, using clear()
-    await usingTheGridEmailInput.clear()
-    // simulate the keystrokes
-    await usingTheGridEmailInput.pressSequentially('test2@test.com', { delay: 500 })
+        //extract the value from input field
+        //visible text inside the input fields is not the text but it's a value 
+        const inputValue = await usingTheGridEmailInput.inputValue()
 
-    //extract the value from input field
-    //visible text inside the input fields is not the text but it's a value 
-    const inputValue = await usingTheGridEmailInput.inputValue()
-
-    //assertions
-    // If you want to validate a partial match for the input field
-    await expect(usingTheGridEmailInput).toHaveValue('test2@test.com')
-    await expect(usingTheGridEmailInput).toHaveValue(/test.com/)
-})
+        //assertions
+        // If you want to validate a partial match for the input field
+        await expect(usingTheGridEmailInput).toHaveValue('test2@test.com1')
+        await expect(usingTheGridEmailInput).toHaveValue(/test.com/)
+    })
 
 
-test('Radio button', async ({ page }) => {
-    const usingTheGridForm = page.locator('nb-card', { hasText: 'Using the Grid' })
+    test('Radio button', async ({ page }) => {
+        const usingTheGridForm = page.locator('nb-card', { hasText: 'Using the Grid' })
 
-    //For click on radio button, recommend to using check() instead
-    await usingTheGridForm.getByLabel('Option 1 ').check({ force: true })
-    await usingTheGridForm.getByRole('radio', { name: 'Option 2' }).check({ force: true })
+        //For click on radio button, recommend to using check() instead
+        await usingTheGridForm.getByLabel('Option 1 ').check({ force: true })
+        await usingTheGridForm.getByRole('radio', { name: 'Option 2' }).check({ force: true })
 
-    const radioButton = await usingTheGridForm.getByRole('radio', { name: 'Option 2' }).isChecked()
-    expect(radioButton).toBeTruthy()
+        const radioButton = await usingTheGridForm.getByRole('radio', { name: 'Option 2' }).isChecked()
+        expect(radioButton).toBeTruthy()
 
-    await expect(usingTheGridForm.getByRole('radio', { name: 'Option 2' })).toBeChecked()
-    await expect(usingTheGridForm.getByRole('radio', { name: 'Option 1' })).not.toBeChecked()
+        await expect(usingTheGridForm.getByRole('radio', { name: 'Option 2' })).toBeChecked()
+        await expect(usingTheGridForm.getByRole('radio', { name: 'Option 1' })).not.toBeChecked()
+
+    })
 
 })
 
@@ -209,17 +214,17 @@ test('Date Picker 2', async ({ page }) => {
 })
 
 test('Sliders', async ({ page }) => {
-    
+
     // #1 kind of shortcut to just set the properties for this attribute value
-     const tempGuage = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger circle')
-     //using evaluate method to trigger different attributes
-     await tempGuage.evaluate( element => {
+    const tempGuage = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger circle')
+    //using evaluate method to trigger different attributes
+    await tempGuage.evaluate(element => {
         //apply to direct value that responsible for the position of the slider
         element.setAttribute('cx', '232.630')
         element.setAttribute('cy', '232.630')
-     })
-     // trigger the action
-     await tempGuage.click()
+    })
+    // trigger the action
+    await tempGuage.click()
 
     // #2 simulate the mouse movement
     // you need to identify the section on the page where you want
@@ -240,9 +245,9 @@ test('Sliders', async ({ page }) => {
     await page.mouse.down()
     // move mouse up and down to simulate mouse movement based on the coordinate
     // move mouse the the right
-    await page.mouse.move(x+100, y)
+    await page.mouse.move(x + 100, y)
     // move mouse to down 
-    await page.mouse.move(x+100, y+100) 
+    await page.mouse.move(x + 100, y + 100)
     // release the mouse to completed the movement
     await page.mouse.up()
 
@@ -250,19 +255,19 @@ test('Sliders', async ({ page }) => {
 
 })
 
-test('iFrames', async ({ page })=> {
+test('iFrames', async ({ page }) => {
     await page.getByText('Modal & Overlays').click()
     await page.getByText('Dialog').click()
 
     // frameLocator will point the entry point to iFrame
     const frameLocator = page.frameLocator('[data-cy="esc-close-iframe"]')
     //and take frame locator, replace page with frame locator
-    await frameLocator.getByRole('button', {name: 'Open Dialog with esc close'}).click()
+    await frameLocator.getByRole('button', { name: 'Open Dialog with esc close' }).click()
 
     //if find iFrame, switch this fFrame by using the frame locator method
 })
 
-test('Drag and Drop', async ({ page })=> {
+test('Drag and Drop', async ({ page }) => {
     await page.getByText('Extra Components').click()
     await page.getByText('Drag & Drop').click()
 
@@ -279,4 +284,3 @@ test('Drag and Drop', async ({ page })=> {
 
 })
 
-// })

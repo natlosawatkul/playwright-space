@@ -37,7 +37,7 @@ import { expect, test } from '@playwright/test'
 // callback function can be page fixture, browser fixture, context figture and some other
 
 test.beforeEach(async ({ page }) => {
-    await page.goto('https://playground.bondaracademy.com/')
+    await page.goto('/')
     await page.getByText('Forms').click()
     await page.getByText('Form Layouts').click()
 })
