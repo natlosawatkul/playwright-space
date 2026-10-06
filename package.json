@@ -1,0 +1,27 @@
+{
+  "name": "playwright-space",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:ui": "npx playwright test --ui --workers 1",
+    "po-test-chromium": "npx playwright test test-with-page-object.spec.ts --project=chromium",
+    "po-test-chromium:qa": "TEST_ENV=qa npx playwright test test-with-page-object.spec.ts --project=chromium"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natlosawatkul/playwright-space.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/natlosawatkul/playwright-space/issues"
+  },
+  "homepage": "https://github.com/natlosawatkul/playwright-space#readme",
+  "devDependencies": {
+    "@faker-js/faker": "^10.6.0",
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.2.0",
+    "dotenv": "^18.0.4"
+  }
+}
